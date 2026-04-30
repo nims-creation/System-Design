@@ -132,7 +132,27 @@ const CanvasBuilder = () => {
         </div>
 
         {/* Canvas Area */}
-        <div className="glass" ref={reactFlowWrapper} style={{ flex: 1, borderRadius: '16px', padding: '10px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div className="glass" ref={reactFlowWrapper} style={{ position: 'relative', flex: 1, borderRadius: '16px', padding: '10px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          
+          {/* Floating Edit Panel */}
+          {selectedNode && (
+            <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10, background: 'var(--bg-dark)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--primary)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
+              <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Edit Component Name</h4>
+              <input 
+                type="text" 
+                value={selectedNode.data.label}
+                onChange={(e) => {
+                  const newLabel = e.target.value;
+                  setSelectedNode(prev => ({ ...prev, data: { ...prev.data, label: newLabel } }));
+                  setNodes(nds => nds.map(n => n.id === selectedNode.id ? { ...n, data: { ...n.data, label: newLabel } } : n));
+                }}
+                className="form-input"
+                style={{ width: '200px', padding: '0.5rem', borderRadius: '6px' }}
+                autoFocus
+              />
+            </div>
+          )}
+
           <ReactFlowProvider>
             <ReactFlow
               nodes={nodes}
@@ -143,26 +163,8 @@ const CanvasBuilder = () => {
               onInit={setReactFlowInstance}
               onDrop={onDrop}
               onDragOver={onDragOver}
-              onNodeDoubleClick={(event, node) => {
-                const newLabel = window.prompt('Enter new name for this component:', node.data.label);
-                if (newLabel && newLabel.trim() !== '') {
-                  setNodes((nds) =>
-                    nds.map((n) => {
-                      if (n.id === node.id) {
-                        // Return a new object to trigger ReactFlow re-render
-                        return {
-                          ...n,
-                          data: {
-                            ...n.data,
-                            label: newLabel
-                          }
-                        };
-                      }
-                      return n;
-                    })
-                  );
-                }
-              }}
+              onNodeClick={(event, node) => setSelectedNode(node)}
+              onPaneClick={() => setSelectedNode(null)}
               fitView
               colorMode="dark"
               style={{ background: 'transparent', borderRadius: '12px' }}
