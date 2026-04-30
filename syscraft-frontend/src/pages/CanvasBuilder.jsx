@@ -100,11 +100,9 @@ const CanvasBuilder = () => {
   };
 
   const handleClear = () => {
-    if (window.confirm('Are you sure you want to clear the canvas?')) {
-      setNodes([]);
-      setEdges([]);
-      setEvaluationResult('');
-    }
+    setNodes([]);
+    setEdges([]);
+    setEvaluationResult('');
   };
 
   const handleEvaluate = async () => {
