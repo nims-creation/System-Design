@@ -1,0 +1,177 @@
+/* Roadmap Styles */
+.roadmap-container {
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+  max-width: 1000px;
+}
+
+.roadmap-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.roadmap-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.roadmap-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 16px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 1s ease-in-out;
+}
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: relative;
+}
+
+/* Vertical Line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 24px;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+.timeline-phase {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.phase-marker {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid var(--primary);
+  background: var(--bg-dark);
+}
+
+.phase-number {
+  font-weight: 800;
+  font-size: 1.25rem;
+  font-family: var(--font-display);
+}
+
+.phase-content {
+  flex-grow: 1;
+  padding-top: 0.5rem;
+}
+
+.phase-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.topic-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.topic-card:hover {
+  transform: translateY(-5px);
+}
+
+.topic-status-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.25rem;
+}
+
+.topic-details h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  padding-right: 2rem;
+}
+
+.topic-details p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.topic-btn {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Status specific styling */
+.topic-card.locked {
+  opacity: 0.6;
+  filter: grayscale(80%);
+}
+
+.topic-card.locked:hover {
+  transform: none;
+}
+
+.topic-card.completed {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+@media (max-width: 768px) {
+  .timeline::before {
+    left: 20px;
+  }
+  .phase-marker {
+    width: 40px;
+    height: 40px;
+  }
+  .timeline-phase {
+    gap: 1rem;
+  }
+}
