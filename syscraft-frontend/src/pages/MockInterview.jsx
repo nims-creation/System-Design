@@ -37,51 +37,62 @@ const MockInterview = () => {
   };
 
   return (
-    <div className="pt-24 min-h-screen px-4 container relative flex flex-col">
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px] -z-10" />
-
-      <div className="text-center mb-8 animate-fade-in-up">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Mock Interviewer</h1>
-        <p className="text-text-secondary max-w-2xl mx-auto text-lg">
+    <div className="auth-page container" style={{ flexDirection: 'column', padding: '2rem 1.5rem' }}>
+      <div className="auth-header animate-fade-in" style={{ marginTop: '2rem' }}>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Mock Interviewer</h1>
+        <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto' }}>
           Practice your system design skills with our FAANG-level AI Simulator.
         </p>
       </div>
 
-      <div className="flex-1 max-w-4xl mx-auto w-full glass-panel flex flex-col mb-8 overflow-hidden" style={{ height: '600px' }}>
+      <div className="chat-container glass animate-fade-in" style={{ width: '100%', maxWidth: '800px', height: '600px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         
         {/* Chat Header */}
-        <div className="p-4 border-b border-surface-light bg-surface-dark/80 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-            <span className="material-symbols-outlined">robot_2</span>
+        <div className="chat-header" style={{ padding: '1rem', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '1rem', background: 'rgba(0,0,0,0.2)' }}>
+          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--primary-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+            <span className="logo-icon">🤖</span>
           </div>
           <div>
-            <h3 className="font-bold">Staff Engineer AI</h3>
-            <p className="text-xs text-green-400 flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-green-400"></span> Online
+            <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Staff Engineer AI</h3>
+            <p style={{ fontSize: '0.8rem', color: '#4ade80', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span> Online
             </p>
           </div>
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="chat-messages" style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {messages.map((msg, idx) => (
-            <div key={idx} className={`flex ${msg.isAi ? 'justify-start' : 'justify-end'}`}>
-              <div className={`max-w-[80%] rounded-2xl px-5 py-3 ${
-                msg.isAi 
-                  ? msg.isError ? 'bg-red-500/20 text-red-300' : 'bg-surface-light text-text-primary' 
-                  : 'bg-primary text-white'
-              }`}>
-                <p className="whitespace-pre-wrap">{msg.text}</p>
+            <div key={idx} style={{ display: 'flex', justifyContent: msg.isAi ? 'flex-start' : 'flex-end' }}>
+              <div style={{
+                maxWidth: '80%',
+                padding: '1rem 1.25rem',
+                borderRadius: '16px',
+                borderBottomLeftRadius: msg.isAi ? '4px' : '16px',
+                borderBottomRightRadius: msg.isAi ? '16px' : '4px',
+                background: msg.isAi ? (msg.isError ? 'rgba(239, 68, 68, 0.2)' : 'rgba(255, 255, 255, 0.05)') : 'var(--primary)',
+                color: msg.isError ? '#fca5a5' : 'var(--text-main)',
+                border: msg.isAi ? '1px solid var(--border-color)' : 'none',
+                lineHeight: '1.5'
+              }}>
+                <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{msg.text}</p>
               </div>
             </div>
           ))}
           {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-surface-light text-text-primary max-w-[80%] rounded-2xl px-5 py-3 flex gap-1">
-                <span className="animate-bounce">.</span>
-                <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>.</span>
-                <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>.</span>
+            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <div style={{
+                padding: '1rem 1.25rem',
+                borderRadius: '16px',
+                borderBottomLeftRadius: '4px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--border-color)',
+                display: 'flex',
+                gap: '0.5rem'
+              }}>
+                <span className="typing-dot">.</span>
+                <span className="typing-dot" style={{ animationDelay: '0.2s' }}>.</span>
+                <span className="typing-dot" style={{ animationDelay: '0.4s' }}>.</span>
               </div>
             </div>
           )}
@@ -89,21 +100,23 @@ const MockInterview = () => {
         </div>
 
         {/* Input Area */}
-        <div className="p-4 bg-surface-dark border-t border-surface-light">
-          <form onSubmit={handleSend} className="flex gap-3">
+        <div className="chat-input-area" style={{ padding: '1rem', borderTop: '1px solid var(--border-color)', background: 'rgba(0,0,0,0.2)' }}>
+          <form onSubmit={handleSend} style={{ display: 'flex', gap: '1rem' }}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your response here..."
-              className="flex-1 bg-surface-light border border-surface-light rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors text-text-primary"
+              className="form-input"
+              style={{ flex: 1, borderRadius: '99px', padding: '0.75rem 1.5rem' }}
             />
             <button 
               type="submit" 
               disabled={isLoading || !input.trim()}
-              className="btn-primary rounded-xl px-6 flex items-center justify-center"
+              className="btn btn-primary"
+              style={{ borderRadius: '99px', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center' }}
             >
-              <span className="material-symbols-outlined">send</span>
+              Send 🚀
             </button>
           </form>
         </div>
