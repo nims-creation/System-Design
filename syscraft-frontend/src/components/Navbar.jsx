@@ -20,6 +20,7 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/#features">Features</Link>
         <Link to="/roadmap">Roadmap</Link>
+        <Link to="/calculator">Calculator</Link>
         <a href="#community">Community</a>
       </div>
       <div className="nav-actions">

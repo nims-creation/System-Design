@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Roadmap from './pages/Roadmap';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Calculator from './pages/Calculator';
 import './App.css';
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/roadmap" element={<Roadmap />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/calculator" element={<Calculator />} />
       </Routes>
       
       {/* Footer */}
