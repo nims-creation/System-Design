@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Calculator from './pages/Calculator';
 import CanvasBuilder from './pages/CanvasBuilder';
+import MockInterview from './pages/MockInterview';
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/canvas" element={<CanvasBuilder />} />
+        <Route path="/mock-interview" element={<MockInterview />} />
       </Routes>
       
       {/* Footer */}

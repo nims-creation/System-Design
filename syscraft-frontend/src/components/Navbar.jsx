@@ -22,6 +22,7 @@ const Navbar = () => {
         <Link to="/roadmap">Roadmap</Link>
         <Link to="/calculator">Calculator</Link>
         <Link to="/canvas">Canvas</Link>
+        <Link to="/mock-interview">AI Interview</Link>
         <a href="#community">Community</a>
       </div>
       <div className="nav-actions">
