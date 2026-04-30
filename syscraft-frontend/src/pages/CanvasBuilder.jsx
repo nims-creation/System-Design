@@ -34,18 +34,15 @@ const CanvasBuilder = () => {
   );
 
   return (
-    <div className="pt-24 min-h-screen px-4 container relative flex flex-col">
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px] -z-10" />
-
-      <div className="text-center mb-8 animate-fade-in-up">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Architecture Canvas</h1>
-        <p className="text-text-secondary max-w-2xl mx-auto text-lg">
+    <div className="auth-page container" style={{ flexDirection: 'column', padding: '2rem 1.5rem', minHeight: 'calc(100vh - 100px)' }}>
+      <div className="auth-header animate-fade-in" style={{ marginTop: '2rem' }}>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Architecture Canvas</h1>
+        <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto' }}>
           Drag, drop, and connect components to visually build and simulate your system architectures.
         </p>
       </div>
 
-      <div className="glass-panel p-2 mb-8 animate-fade-in-up" style={{ height: '600px', width: '100%' }}>
+      <div className="glass animate-fade-in" style={{ height: '600px', width: '100%', borderRadius: '16px', padding: '10px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -53,10 +50,11 @@ const CanvasBuilder = () => {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           fitView
-          className="bg-surface-dark/50 rounded-xl"
+          colorMode="dark"
+          style={{ background: 'transparent', borderRadius: '12px' }}
         >
-          <Controls className="bg-surface-light border-none fill-white" />
-          <MiniMap className="bg-surface-dark border border-surface-light" maskColor="rgba(0,0,0,0.5)" />
+          <Controls />
+          <MiniMap maskColor="rgba(0,0,0,0.7)" nodeColor="#6366f1" style={{ background: '#0a0a0f' }} />
           <Background variant="dots" gap={20} size={1} color="#4b5563" />
         </ReactFlow>
       </div>
