@@ -149,7 +149,14 @@ const CanvasBuilder = () => {
                   setNodes((nds) =>
                     nds.map((n) => {
                       if (n.id === node.id) {
-                        n.data = { ...n.data, label: newLabel };
+                        // Return a new object to trigger ReactFlow re-render
+                        return {
+                          ...n,
+                          data: {
+                            ...n.data,
+                            label: newLabel
+                          }
+                        };
                       }
                       return n;
                     })
