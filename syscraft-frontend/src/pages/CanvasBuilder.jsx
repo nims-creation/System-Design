@@ -45,7 +45,7 @@ const CanvasBuilder = () => {
         </p>
       </div>
 
-      <div className="flex-1 glass-panel p-2 mb-8 animate-fade-in-up" style={{ minHeight: '600px' }}>
+      <div className="glass-panel p-2 mb-8 animate-fade-in-up" style={{ height: '600px', width: '100%' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
