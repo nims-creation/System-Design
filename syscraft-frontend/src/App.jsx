@@ -1,122 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="app-container">
+      {/* Ambient glowing orbs for background effect */}
+      <div className="ambient-glow" style={{ top: '-10%', left: '-10%' }}></div>
+      <div className="ambient-glow" style={{ bottom: '-10%', right: '-10%', background: 'radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 60%)' }}></div>
+
+      {/* Navbar */}
+      <nav className="navbar container glass">
+        <div className="logo">
+          <span className="logo-icon">💠</span>
+          <span className="logo-text">SysCraft</span>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+        <div className="nav-links">
+          <a href="#features">Features</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#community">Community</a>
+        </div>
+        <div className="nav-actions">
+          <button className="btn btn-outline">Sign In</button>
+          <button className="btn btn-primary">Get Started</button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="hero container animate-fade-in">
+        <div className="hero-content">
+          <div className="badge glass">🚀 The Ultimate System Design Journey</div>
+          <h1 className="hero-title">
+            Master System Design <br />
+            <span className="text-gradient">Without the Confusion</span>
+          </h1>
+          <p className="hero-subtitle">
+            A structured, visual, and community-driven platform to learn system design from zero to architect. Get curated roadmaps, visual components, cheat sheets, and real interview questions.
           </p>
+          <div className="hero-cta">
+            <button className="btn btn-primary btn-large">Start Learning Now</button>
+            <button className="btn btn-outline btn-large">View Curriculum</button>
+          </div>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        
+        {/* Mockup / Visual element */}
+        <div className="hero-visual glass">
+          <div className="mockup-header">
+            <span className="dot red"></span>
+            <span className="dot yellow"></span>
+            <span className="dot green"></span>
+          </div>
+          <div className="mockup-body">
+            <div className="architecture-diagram">
+              <div className="node client glass">Client</div>
+              <div className="arrow">→</div>
+              <div className="node lb glass bg-gradient">Load Balancer</div>
+              <div className="arrow">→</div>
+              <div className="node server glass">App Servers</div>
+              <div className="arrow">→</div>
+              <div className="node db glass">Database</div>
+            </div>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      </main>
+
+      {/* Features Section */}
+      <section id="features" className="features container">
+        <h2 className="section-title">Everything you need to crack the interview</h2>
+        <div className="feature-grid">
+          <div className="feature-card glass hover-effect">
+            <div className="feature-icon">🗺️</div>
+            <h3>Structured Roadmap</h3>
+            <p>Know exactly what to read and in what order. No more getting lost in endless tutorials.</p>
+          </div>
+          <div className="feature-card glass hover-effect">
+            <div className="feature-icon">👁️</div>
+            <h3>Visual Learning</h3>
+            <p>Understand complex architectures through beautiful diagrams and interactive elements.</p>
+          </div>
+          <div className="feature-card glass hover-effect">
+            <div className="feature-icon">📝</div>
+            <h3>Personal Notes</h3>
+            <p>Take notes directly on the platform and save them for your last-minute revision.</p>
+          </div>
+          <div className="feature-card glass hover-effect">
+            <div className="feature-icon">⚡</div>
+            <h3>Quick Cheat Sheets</h3>
+            <p>Revise entire topics in minutes with our highly condensed cheat sheets.</p>
+          </div>
         </div>
       </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      
+      {/* Footer */}
+      <footer className="footer container border-top">
+        <p>&copy; {new Date().getFullYear()} SysCraft. Built for developers, by developers.</p>
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;
