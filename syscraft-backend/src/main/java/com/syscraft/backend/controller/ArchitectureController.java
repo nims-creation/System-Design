@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/architectures")
+@CrossOrigin(origins = "*")
 public class ArchitectureController {
 
     @Autowired
