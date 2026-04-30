@@ -177,6 +177,7 @@ const CanvasBuilder = () => {
               onPaneClick={() => setSelectedNode(null)}
               fitView
               colorMode="dark"
+              proOptions={{ hideAttribution: true }}
               style={{ background: 'transparent', borderRadius: '12px' }}
             >
               <Controls />
