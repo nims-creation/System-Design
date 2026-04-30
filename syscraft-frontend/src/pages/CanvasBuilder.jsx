@@ -38,6 +38,7 @@ const CanvasBuilder = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
   const reactFlowWrapper = useRef(null);
 
   const onConnect = useCallback(
