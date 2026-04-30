@@ -138,7 +138,16 @@ const CanvasBuilder = () => {
           {/* Floating Edit Panel */}
           {selectedNode && (
             <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10, background: 'var(--bg-dark)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--primary)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
-              <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Edit Component Name</h4>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <h4 style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>Edit Component Name</h4>
+                <button 
+                  onClick={() => setSelectedNode(null)} 
+                  style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1rem', padding: '0 0.25rem' }}
+                  title="Close"
+                >
+                  ✕
+                </button>
+              </div>
               <input 
                 type="text" 
                 value={selectedNode.data.label}
