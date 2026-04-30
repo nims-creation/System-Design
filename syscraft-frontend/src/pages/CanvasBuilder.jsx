@@ -37,18 +37,46 @@ const CanvasBuilder = () => {
     <div className="auth-page container" style={{ flexDirection: 'column', padding: '2rem 1.5rem', minHeight: 'calc(100vh - 100px)' }}>
       <div className="auth-header animate-fade-in" style={{ marginTop: '2rem' }}>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Architecture Canvas</h1>
-        <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          Drag, drop, and connect components to visually build and simulate your system architectures.
+        <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto', marginBottom: '1.5rem' }}>
+          Drag, drop, and connect components. <strong style={{ color: 'var(--primary)' }}>Double-click any node</strong> to rename it.
         </p>
+        <button 
+          onClick={() => {
+            const newNode = {
+              id: `node-${Date.now()}`,
+              position: { x: Math.random() * 200 + 100, y: Math.random() * 200 + 50 },
+              data: { label: 'New Component' },
+              style: { background: '#252a36', color: '#fff', border: '1px solid #3b82f6', borderRadius: '8px', padding: '10px' }
+            };
+            setNodes((nds) => nds.concat(newNode));
+          }}
+          className="btn btn-primary"
+          style={{ padding: '0.5rem 1.5rem' }}
+        >
+          + Add Component
+        </button>
       </div>
 
-      <div className="glass animate-fade-in" style={{ height: '600px', width: '100%', borderRadius: '16px', padding: '10px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="glass animate-fade-in" style={{ height: '600px', width: '100%', borderRadius: '16px', padding: '10px', display: 'flex', flexDirection: 'column', overflow: 'hidden', marginTop: '1rem' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          onNodeDoubleClick={(event, node) => {
+            const newLabel = window.prompt('Enter new name for this component:', node.data.label);
+            if (newLabel && newLabel.trim() !== '') {
+              setNodes((nds) =>
+                nds.map((n) => {
+                  if (n.id === node.id) {
+                    n.data = { ...n.data, label: newLabel };
+                  }
+                  return n;
+                })
+              );
+            }
+          }}
           fitView
           colorMode="dark"
           style={{ background: 'transparent', borderRadius: '12px' }}
