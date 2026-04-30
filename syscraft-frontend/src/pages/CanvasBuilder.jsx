@@ -10,20 +10,11 @@ import {
   ReactFlowProvider,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { toPng } from 'html-to-image';
+import axios from 'axios';
 
-const initialNodes = [
-  { id: '1', position: { x: 400, y: 50 }, data: { label: '⚖️ API Gateway (Nginx)' }, style: { background: '#1e3a8a', color: '#fff', border: '2px solid #3b82f6', borderRadius: '8px', padding: '10px' } },
-  { id: '2', position: { x: 250, y: 150 }, data: { label: '🖥️ Web Server 1' }, style: { background: '#4c1d95', color: '#fff', border: '2px solid #8b5cf6', borderRadius: '8px', padding: '10px' } },
-  { id: '3', position: { x: 550, y: 150 }, data: { label: '🖥️ Web Server 2' }, style: { background: '#4c1d95', color: '#fff', border: '2px solid #8b5cf6', borderRadius: '8px', padding: '10px' } },
-  { id: '4', position: { x: 400, y: 250 }, data: { label: '💾 Primary Database' }, style: { background: '#064e3b', color: '#fff', border: '2px solid #10b981', borderRadius: '8px', padding: '10px' } },
-];
-
-const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', animated: true, style: { stroke: '#ec4899' } },
-  { id: 'e1-3', source: '1', target: '3', animated: true, style: { stroke: '#ec4899' } },
-  { id: 'e2-4', source: '2', target: '4', animated: true, style: { stroke: '#8b5cf6' } },
-  { id: 'e3-4', source: '3', target: '4', animated: true, style: { stroke: '#8b5cf6' } },
-];
+const initialNodes = [];
+const initialEdges = [];
 
 const nodeConfig = {
   database: { label: '💾 Database', border: '#10b981', bg: '#064e3b' },
@@ -39,6 +30,8 @@ const CanvasBuilder = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [evaluationResult, setEvaluationResult] = useState('');
+  const [isEvaluating, setIsEvaluating] = useState(false);
   const reactFlowWrapper = useRef(null);
 
   const onConnect = useCallback(
@@ -91,14 +84,112 @@ const CanvasBuilder = () => {
     [reactFlowInstance, setNodes],
   );
 
+  const handleDownloadImage = () => {
+    if (reactFlowWrapper.current === null) return;
+    toPng(reactFlowWrapper.current, { backgroundColor: '#0a0a0f' })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'architecture.png';
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.error('Failed to download image', err);
+        alert('Failed to download image. Try again.');
+      });
+  };
+
+  const handleClear = () => {
+    if (window.confirm('Are you sure you want to clear the canvas?')) {
+      setNodes([]);
+      setEdges([]);
+      setEvaluationResult('');
+    }
+  };
+
+  const handleEvaluate = async () => {
+    if (nodes.length === 0) {
+      alert("Please add some components to evaluate!");
+      return;
+    }
+    
+    setIsEvaluating(true);
+    setEvaluationResult('');
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/architectures/evaluate', {
+        nodes,
+        edges
+      });
+      setEvaluationResult(response.data.evaluation);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to evaluate. Ensure backend is running.");
+    } finally {
+      setIsEvaluating(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (nodes.length === 0) {
+      alert("Canvas is empty!");
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("Please login first to save your architecture!");
+      return;
+    }
+
+    const name = window.prompt("Enter a name for this architecture:", "My System Design");
+    if (!name) return;
+
+    try {
+      await axios.post('http://localhost:8080/api/architectures', {
+        name,
+        nodesJson: JSON.stringify(nodes),
+        edgesJson: JSON.stringify(edges)
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      alert("Architecture saved successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save architecture. Check console.");
+    }
+  };
+
   return (
     <div className="auth-page container" style={{ flexDirection: 'column', padding: '2rem 1.5rem', minHeight: 'calc(100vh - 100px)' }}>
       <div className="auth-header animate-fade-in" style={{ marginTop: '2rem', marginBottom: '1rem' }}>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Architecture Canvas</h1>
-        <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          Drag components from the sidebar onto the canvas. <strong style={{ color: 'var(--primary)' }}>Double-click any node</strong> to rename it.
+        <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto', marginBottom: '1.5rem' }}>
+          Drag components from the sidebar onto the canvas. Single-click any node to rename it.
         </p>
+        
+        {/* Action Toolbar */}
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={handleEvaluate} className="btn btn-primary" style={{ padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {isEvaluating ? 'Evaluating...' : '🤖 AI Evaluate'}
+          </button>
+          <button onClick={handleSave} className="btn" style={{ padding: '0.5rem 1rem', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+            💾 Save
+          </button>
+          <button onClick={handleDownloadImage} className="btn" style={{ padding: '0.5rem 1rem', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+            🖼️ Export PNG
+          </button>
+          <button onClick={handleClear} className="btn" style={{ padding: '0.5rem 1rem', background: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.5)', borderRadius: '8px' }}>
+            🗑️ Clear
+          </button>
+        </div>
       </div>
+
+      {evaluationResult && (
+        <div className="animate-fade-in" style={{ background: 'var(--surface-dark)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--primary-glow)', width: '100%', marginBottom: '1rem' }}>
+          <div dangerouslySetInnerHTML={{ __html: evaluationResult.replace(/\n/g, '<br/>') }} />
+        </div>
+      )}
 
       <div className="animate-fade-in" style={{ display: 'flex', gap: '1.5rem', width: '100%', height: '650px', marginTop: '1rem' }}>
         
